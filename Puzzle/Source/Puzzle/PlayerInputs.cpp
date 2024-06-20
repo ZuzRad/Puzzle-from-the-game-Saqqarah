@@ -2,6 +2,8 @@
 
 
 #include "PlayerInputs.h"
+#include "PuzzlePoint.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 APlayerInputs::APlayerInputs()
@@ -15,7 +17,19 @@ APlayerInputs::APlayerInputs()
 void APlayerInputs::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		GameBoard = Cast<AGameBoard>(UGameplayStatics::GetActorOfClass(World, AGameBoard::StaticClass()));
+	}
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		PlayerController->bShowMouseCursor = true;
+		PlayerController->bEnableClickEvents = true;
+		PlayerController->bEnableMouseOverEvents = true;
+	}
 }
 
 // Called every frame
@@ -30,5 +44,33 @@ void APlayerInputs::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Bind mouse click event
+	PlayerInputComponent->BindAction("LeftMouseClick", IE_Pressed, this, &APlayerInputs::OnMouseClick);
+
+}
+
+void APlayerInputs::OnMouseClick()
+{
+	ProcessMouseClick();
+}
+
+void APlayerInputs::ProcessMouseClick()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		FHitResult HitResult;
+		PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+
+		if (HitResult.bBlockingHit)
+		{
+			// Log the name of the clicked actor
+			APuzzlePoint* ClickedPoint = Cast<APuzzlePoint>(HitResult.GetActor());
+			if (ClickedPoint)
+			{
+				GameBoard->CheckPointClicked(ClickedPoint);
+			}
+		}
+	}
 }
 

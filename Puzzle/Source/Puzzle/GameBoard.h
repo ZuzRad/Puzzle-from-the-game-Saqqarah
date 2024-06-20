@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PuzzlePoint.h"
+#include "PuzzleEdge.h"
 #include "GameBoard.generated.h"
 
 UCLASS()
@@ -14,6 +16,8 @@ class PUZZLE_API AGameBoard : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGameBoard();
+
+	void CheckPointClicked(APuzzlePoint* ClickedPoint);
 
 protected:
 	// Called when the game starts or when spawned
