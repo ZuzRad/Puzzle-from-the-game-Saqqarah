@@ -32,8 +32,7 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 			Element->Edge->ChangeState(1);
 			if (CheckWinCondition()) 
 			{
-				UE_LOG(LogTemp, Warning, TEXT("WYGRANA"));
-				FVector WorldOffset(-5.f, 40.f, 25.f);
+				FVector WorldOffset(0.f, 50.f, 0.f);
 				AddActorWorldOffset(WorldOffset, false, nullptr, ETeleportType::None);
 			}
 			else if (ClickedPoint->CheckLoseCondition()) {
@@ -83,8 +82,6 @@ void AGameBoard::ResetLevel()
 // Called when the game starts or when spawned
 void AGameBoard::BeginPlay()
 {
-	//FVector WorldOffset(0.f, 45.f, 0.f);
-	//AddActorWorldOffset(WorldOffset, false, nullptr, ETeleportType::None);
 	Super::BeginPlay();
 
 	PrimarySprite->SetSprite(HidingPlace);
@@ -100,15 +97,11 @@ void AGameBoard::Tick(float DeltaTime)
 
 void AGameBoard::TakeKey()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Wez klucz"));
 	KeySprite->SetHiddenInGame(true);
-	//KeySprite->SetWorldLocation(FVector(0.f, 0.f, 0.f))
-	// KeySprite->DestroyComponent();
 }
 
 bool AGameBoard::CheckWinCondition()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Number of used edges: %d"), UsedEdges.Num());
 	if (UsedEdges.Num() == EdgesNumber)
 	{
 		return true;
