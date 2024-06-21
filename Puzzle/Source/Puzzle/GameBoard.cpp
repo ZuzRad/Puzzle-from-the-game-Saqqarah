@@ -23,13 +23,12 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 	{
 		FPuzzleElement* Element = CurrentPoint->CheckNearestPoints(ClickedPoint);
 
-		if (Element && !UsedEdges.Contains(Element->Edge))
+		if (Element && CheckCurrentEdge(Element->Edge))
 		{
 			CurrentPoint->ChangeState(2);
 			ChangeCurrentPoint(ClickedPoint);
+			UsedEdges++;
 
-			UsedEdges.Add(Element->Edge);
-			Element->Edge->ChangeState(1);
 			if (CheckWinCondition()) 
 			{
 				FVector WorldOffset(0.f, 50.f, 0.f);
@@ -83,7 +82,7 @@ void AGameBoard::ResetLevel()
 void AGameBoard::BeginPlay()
 {
 	Super::BeginPlay();
-
+	UsedEdges = 0;
 	PrimarySprite->SetSprite(HidingPlace);
 	KeySprite->SetSprite(Key);
 }
@@ -102,7 +101,7 @@ void AGameBoard::TakeKey()
 
 bool AGameBoard::CheckWinCondition()
 {
-	if (UsedEdges.Num() == EdgesNumber)
+	if (UsedEdges == EdgesNumber)
 	{
 		return true;
 	}

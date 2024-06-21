@@ -49,7 +49,7 @@ private:
 	UPROPERTY()
 	APuzzlePoint* CurrentPoint;
 
-	TArray<APuzzleEdge*> UsedEdges;
+	int UsedEdges;
 
 	UPROPERTY(EditAnywhere)
 	int EdgesNumber;
