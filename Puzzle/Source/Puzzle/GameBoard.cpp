@@ -15,6 +15,7 @@ AGameBoard::AGameBoard()
 void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hit Point "));
+
 }
 
 // Called when the game starts or when spawned

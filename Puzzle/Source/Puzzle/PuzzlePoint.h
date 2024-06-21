@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PaperSprite.h"
+#include "PaperSpriteComponent.h"
 #include "PuzzlePoint.generated.h"
+
 
 UCLASS()
 class PUZZLE_API APuzzlePoint : public AActor
@@ -22,5 +25,26 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ChangeState(int State);
+
+	int CurrentState;
+	// Editable sprites in Blueprint
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	UPaperSprite* UsedSprite;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	UPaperSprite* ActiveSprite;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	UPaperSprite* BaseSprite;
+
+	// Reference to the PaperSprite component
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	class UPaperSpriteComponent* PrimarySprite;
+
+private:
+	// Function to change sprite
+	void SetActiveSprite(UPaperSprite* NewSprite);
 
 };
