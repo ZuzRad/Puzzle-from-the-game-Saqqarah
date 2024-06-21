@@ -15,7 +15,7 @@ APuzzleEdge::APuzzleEdge()
 void APuzzleEdge::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	ChangeState(0);
 }
 
 // Called every frame
@@ -23,5 +23,25 @@ void APuzzleEdge::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void APuzzleEdge::ChangeState(int State)
+{
+	CurrentState = State;
+	if (State == 1) 
+	{
+		ShowEdge();
+	}
+}
+
+int APuzzleEdge::ReturnState()
+{
+	return CurrentState;
+}
+
+void APuzzleEdge::ShowEdge()
+{
+	SetActorHiddenInGame(false);
+	UE_LOG(LogTemp, Warning, TEXT("SHOW EDGE"));
 }
 

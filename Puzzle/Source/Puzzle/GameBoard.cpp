@@ -14,10 +14,24 @@ AGameBoard::AGameBoard()
 
 void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hit Point "));
+	UE_LOG(LogTemp, Warning, TEXT("Hit Point"));
 	if (CurrentPoint)
 	{
-		CurrentPoint->CheckNearestPoints(ClickedPoint);
+		FPuzzleElement* Element = CurrentPoint->CheckNearestPoints(ClickedPoint);
+
+		if (Element && !UsedEdges.Contains(Element->Edge))
+		{
+			CurrentPoint->ChangeState(2);
+			CurrentPoint = ClickedPoint;
+			CurrentPoint->ChangeState(1);
+
+			UsedEdges.Add(Element->Edge);
+			Element->Edge->ChangeState(1);
+			if (CheckWinCondition()) 
+			{
+				UE_LOG(LogTemp, Warning, TEXT("WYGRANA"));
+			}
+		}
 	}
 	else 
 	{
@@ -25,6 +39,22 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 		ClickedPoint->ChangeState(1);
 	}
 }
+
+
+bool AGameBoard::CheckCurrentEdge(APuzzleEdge* Edge)
+{
+	if (Edge->ReturnState() == 0)
+	{
+		Edge->ChangeState(1);
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+}
+
+
 
 // Called when the game starts or when spawned
 void AGameBoard::BeginPlay()
@@ -39,4 +69,17 @@ void AGameBoard::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+bool AGameBoard::CheckWinCondition()
+{
+	if (sizeof(UsedEdges) == EdgesNumber) 
+	{
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+}
+
 

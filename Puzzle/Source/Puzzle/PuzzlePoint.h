@@ -31,7 +31,7 @@ public:
 
 	int CurrentState;
 
-	bool CheckNearestPoints(APuzzlePoint* ClickedPoint);
+	FPuzzleElement* CheckNearestPoints(APuzzlePoint* ClickedPoint);
 
 	// Editable sprites in Blueprint
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
@@ -51,13 +51,6 @@ private:
 	// Function to change sprite
 	void SetActiveSprite(UPaperSprite* NewSprite);
 
-	//// Array of points
-	//UPROPERTY(EditAnywhere)
-	//TArray<APuzzlePoint*> NearestPoints;
-
-	//// Array of edges
-	//UPROPERTY(EditAnywhere)
-	//TArray<APuzzleEdge*> NearestEdges;
 	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
 	TArray<FPuzzleElement> PuzzleElements;
 

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "PuzzlePoint.h"
 #include "PuzzleEdge.h"
+#include "PuzzleElement.h"
 #include "GameBoard.generated.h"
 
 UCLASS()
@@ -36,5 +37,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int EdgesNumber;
+
+	bool CheckWinCondition();
+
+	bool CheckCurrentEdge(APuzzleEdge* Edge);
 
 };

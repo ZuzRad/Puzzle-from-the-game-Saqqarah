@@ -23,4 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void ChangeState(int State);
+
+	int ReturnState();
+
+private:
+
+	void ShowEdge();
+
+	int CurrentState;
 };
