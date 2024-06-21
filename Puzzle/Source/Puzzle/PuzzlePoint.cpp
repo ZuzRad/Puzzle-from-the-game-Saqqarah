@@ -12,7 +12,6 @@ APuzzlePoint::APuzzlePoint()
 	PrimarySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("PrimarySprite"));
 
 	PrimarySprite->SetupAttachment(RootComponent);
-	//AttachTo
 }
 
 // Called when the game starts or when spawned

@@ -69,6 +69,12 @@ void APlayerInputs::ProcessMouseClick()
 			{
 				GameBoard->CheckPointClicked(ClickedPoint);
 			}
+
+			AGameBoard* ClickedKey = Cast<AGameBoard>(HitResult.GetActor());
+			if (ClickedKey)
+			{
+				GameBoard->TakeKey();
+			}
 		}
 	}
 }

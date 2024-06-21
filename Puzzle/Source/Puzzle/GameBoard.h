@@ -7,6 +7,8 @@
 #include "PuzzlePoint.h"
 #include "PuzzleEdge.h"
 #include "Kismet/GameplayStatics.h"
+#include "PaperSprite.h"
+#include "PaperSpriteComponent.h"
 #include "PuzzleElement.h"
 #include "GameBoard.generated.h"
 
@@ -29,6 +31,20 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	UPaperSprite* HidingPlace;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	UPaperSprite* Key;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	class UPaperSpriteComponent* PrimarySprite;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
+	class UPaperSpriteComponent* KeySprite;
+
+	void TakeKey();
+
 private:
 	UPROPERTY()
 	APuzzlePoint* CurrentPoint;
@@ -37,9 +53,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int EdgesNumber;
-
-	UPROPERTY(EditAnywhere)
-	UPaperSprite* HidingPlace;
 
 	bool CheckWinCondition();
 
