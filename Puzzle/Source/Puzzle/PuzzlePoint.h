@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "PaperSprite.h"
 #include "PuzzleElement.h"
+#include "PuzzleEdge.h"
 #include "PaperSpriteComponent.h"
 #include "PuzzlePoint.generated.h"
 
@@ -32,6 +33,8 @@ public:
 	int CurrentState;
 
 	FPuzzleElement* CheckNearestPoints(APuzzlePoint* ClickedPoint);
+
+	bool CheckLoseCondition();
 
 	// Editable sprites in Blueprint
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")

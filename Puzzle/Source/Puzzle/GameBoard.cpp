@@ -14,7 +14,6 @@ AGameBoard::AGameBoard()
 
 void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hit Point"));
 	if (CurrentPoint)
 	{
 		FPuzzleElement* Element = CurrentPoint->CheckNearestPoints(ClickedPoint);
@@ -22,23 +21,27 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 		if (Element && !UsedEdges.Contains(Element->Edge))
 		{
 			CurrentPoint->ChangeState(2);
-			CurrentPoint = ClickedPoint;
-			CurrentPoint->ChangeState(1);
+			ChangeCurrentPoint(ClickedPoint);
 
 			UsedEdges.Add(Element->Edge);
 			Element->Edge->ChangeState(1);
 			if (CheckWinCondition()) 
 			{
 				UE_LOG(LogTemp, Warning, TEXT("WYGRANA"));
+
+			}
+			else if (ClickedPoint->CheckLoseCondition()) {
+				ResetLevel();
+				UE_LOG(LogTemp, Warning, TEXT("PRZEGRANA"));
 			}
 		}
 	}
 	else 
 	{
-		CurrentPoint = ClickedPoint;
-		ClickedPoint->ChangeState(1);
+		ChangeCurrentPoint(ClickedPoint);
 	}
 }
+
 
 
 bool AGameBoard::CheckCurrentEdge(APuzzleEdge* Edge)
@@ -51,6 +54,22 @@ bool AGameBoard::CheckCurrentEdge(APuzzleEdge* Edge)
 	else 
 	{
 		return false;
+	}
+}
+
+void AGameBoard::ChangeCurrentPoint(APuzzlePoint* ClickedPoint)
+{
+	CurrentPoint = ClickedPoint;
+	CurrentPoint->ChangeState(1);
+}
+
+void AGameBoard::ResetLevel()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FName CurrentLevelName = *World->GetName();
+		UGameplayStatics::OpenLevel(World, CurrentLevelName);
 	}
 }
 
@@ -72,7 +91,8 @@ void AGameBoard::Tick(float DeltaTime)
 
 bool AGameBoard::CheckWinCondition()
 {
-	if (sizeof(UsedEdges) == EdgesNumber) 
+	UE_LOG(LogTemp, Warning, TEXT("Number of used edges: %d"), UsedEdges.Num());
+	if (UsedEdges.Num() == EdgesNumber)
 	{
 		return true;
 	}
@@ -81,5 +101,6 @@ bool AGameBoard::CheckWinCondition()
 		return false;
 	}
 }
+
 
 

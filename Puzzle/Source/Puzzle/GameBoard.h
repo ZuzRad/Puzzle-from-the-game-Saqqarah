@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "PuzzlePoint.h"
 #include "PuzzleEdge.h"
+#include "Kismet/GameplayStatics.h"
 #include "PuzzleElement.h"
 #include "GameBoard.generated.h"
 
@@ -32,14 +33,20 @@ private:
 	UPROPERTY()
 	APuzzlePoint* CurrentPoint;
 
-	UPROPERTY()
 	TArray<APuzzleEdge*> UsedEdges;
 
 	UPROPERTY(EditAnywhere)
 	int EdgesNumber;
 
+	UPROPERTY(EditAnywhere)
+	UPaperSprite* HidingPlace;
+
 	bool CheckWinCondition();
 
 	bool CheckCurrentEdge(APuzzleEdge* Edge);
+
+	void ChangeCurrentPoint(APuzzlePoint* ClickedPoint);
+
+	void ResetLevel();
 
 };

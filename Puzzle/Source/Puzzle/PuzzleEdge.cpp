@@ -42,6 +42,5 @@ int APuzzleEdge::ReturnState()
 void APuzzleEdge::ShowEdge()
 {
 	SetActorHiddenInGame(false);
-	UE_LOG(LogTemp, Warning, TEXT("SHOW EDGE"));
 }
 

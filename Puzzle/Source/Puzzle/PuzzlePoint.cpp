@@ -49,8 +49,6 @@ void APuzzlePoint::ChangeState(int State)
 
 FPuzzleElement* APuzzlePoint::CheckNearestPoints(APuzzlePoint* ClickedPoint)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Checking points "));
-
 	for (FPuzzleElement& Element : PuzzleElements)
 	{
 		if (Element.Point == ClickedPoint)
@@ -60,6 +58,19 @@ FPuzzleElement* APuzzlePoint::CheckNearestPoints(APuzzlePoint* ClickedPoint)
 		}
 	}
 	return nullptr;
+}
+
+bool APuzzlePoint::CheckLoseCondition()
+{
+	for (FPuzzleElement& Element : PuzzleElements)
+	{
+		if (Element.Edge->ReturnState() == 0)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 

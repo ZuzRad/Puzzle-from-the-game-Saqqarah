@@ -64,7 +64,6 @@ void APlayerInputs::ProcessMouseClick()
 
 		if (HitResult.bBlockingHit)
 		{
-			// Log the name of the clicked actor
 			APuzzlePoint* ClickedPoint = Cast<APuzzlePoint>(HitResult.GetActor());
 			if (ClickedPoint)
 			{
