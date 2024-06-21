@@ -15,7 +15,15 @@ AGameBoard::AGameBoard()
 void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Hit Point "));
-
+	if (CurrentPoint)
+	{
+		CurrentPoint->CheckNearestPoints(ClickedPoint);
+	}
+	else 
+	{
+		CurrentPoint = ClickedPoint;
+		ClickedPoint->ChangeState(1);
+	}
 }
 
 // Called when the game starts or when spawned

@@ -29,6 +29,12 @@ public:
 
 private:
 	UPROPERTY()
-	APuzzlePoint* SelectedPoint;
+	APuzzlePoint* CurrentPoint;
+
+	UPROPERTY()
+	TArray<APuzzleEdge*> UsedEdges;
+
+	UPROPERTY(EditAnywhere)
+	int EdgesNumber;
 
 };

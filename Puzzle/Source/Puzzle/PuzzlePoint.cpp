@@ -47,6 +47,23 @@ void APuzzlePoint::ChangeState(int State)
 	}
 }
 
+bool APuzzlePoint::CheckNearestPoints(APuzzlePoint* ClickedPoint)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Checking points "));
+
+	for (FPuzzleElement Element : PuzzleElements)
+	{
+		if (Element.Point == ClickedPoint)
+		{
+			//Element.Edge->ActiveEdge();
+			UE_LOG(LogTemp, Warning, TEXT("Correct point "));
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 
 void APuzzlePoint::SetActiveSprite(UPaperSprite* NewSprite)
