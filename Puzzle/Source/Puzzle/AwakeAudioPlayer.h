@@ -28,8 +28,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
 	AActor* ActorTarget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
-	USoundBase* SoundToPlay;
 		
 	void PlaySound();
+
+	// Method to set the sound to play
+	void SetSoundToPlay(USoundBase* NewSound);
+
+private:
+	USoundBase* SoundToPlay;
+
 };

@@ -39,3 +39,8 @@ void UAwakeAudioPlayer::PlaySound()
 	}
 }
 
+void UAwakeAudioPlayer::SetSoundToPlay(USoundBase* NewSound)
+{
+	SoundToPlay = NewSound;
+}
+

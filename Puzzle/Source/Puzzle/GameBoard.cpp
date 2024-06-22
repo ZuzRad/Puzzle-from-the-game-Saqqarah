@@ -88,7 +88,7 @@ void AGameBoard::ResetLevel()
 
 void AGameBoard::PlayFromAudioComponent(USoundBase* Sound)
 {
-	AudioComponent->SoundToPlay = Sound;
+	AudioComponent->SetSoundToPlay(Sound);
 	AudioComponent->PlaySound();
 }
 

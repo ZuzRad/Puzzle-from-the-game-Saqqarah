@@ -91,15 +91,17 @@ void APlayerInputs::OnEscapeKeyPressed()
 		UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
 		if (UserSettings)
 		{
-			if (UserSettings->GetFullscreenMode() == EWindowMode::Fullscreen || UserSettings->GetFullscreenMode() == EWindowMode::WindowedFullscreen)
+			EWindowMode::Type CurrentMode = UserSettings->GetFullscreenMode();
+			if (CurrentMode == EWindowMode::Fullscreen || CurrentMode == EWindowMode::WindowedFullscreen)
 			{
 				UserSettings->SetFullscreenMode(EWindowMode::Windowed);
+				UserSettings->ApplyResolutionSettings(true);
 			}
-			//else
-			//{
-			//	UserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
-			//}
-			UserSettings->ApplySettings(false);
+			else
+			{
+				UserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
+				UserSettings->ApplyResolutionSettings(true);
+			}
 		}
 	}
 }
