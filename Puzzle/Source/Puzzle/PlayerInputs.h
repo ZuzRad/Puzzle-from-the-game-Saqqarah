@@ -35,4 +35,6 @@ private:
 	void ProcessMouseClick();
 
 	AGameBoard* GameBoard;
+
+	void OnEscapeKeyPressed();
 };

@@ -3,7 +3,9 @@
 
 #include "PlayerInputs.h"
 #include "PuzzlePoint.h"
-#include <Kismet/GameplayStatics.h>
+#include "Kismet/GameplayStatics.h"
+#include <GameFramework/GameUserSettings.h> 
+
 
 // Sets default values
 APlayerInputs::APlayerInputs()
@@ -46,6 +48,8 @@ void APlayerInputs::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	// Bind mouse click event
 	PlayerInputComponent->BindAction("LeftMouseClick", IE_Pressed, this, &APlayerInputs::OnMouseClick);
+	// Bind escape key event
+	PlayerInputComponent->BindAction("ToggleFullscreen", IE_Pressed, this, &APlayerInputs::OnEscapeKeyPressed);
 
 }
 
@@ -79,3 +83,23 @@ void APlayerInputs::ProcessMouseClick()
 	}
 }
 
+void APlayerInputs::OnEscapeKeyPressed()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+		if (UserSettings)
+		{
+			if (UserSettings->GetFullscreenMode() == EWindowMode::Fullscreen || UserSettings->GetFullscreenMode() == EWindowMode::WindowedFullscreen)
+			{
+				UserSettings->SetFullscreenMode(EWindowMode::Windowed);
+			}
+			//else
+			//{
+			//	UserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
+			//}
+			UserSettings->ApplySettings(false);
+		}
+	}
+}

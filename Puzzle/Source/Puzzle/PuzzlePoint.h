@@ -65,5 +65,4 @@ private:
 	void StartShake();
 	void PerformShake();
 	void StopShake();
-
 };
