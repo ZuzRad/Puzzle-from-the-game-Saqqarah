@@ -19,6 +19,8 @@ void APuzzlePoint::BeginPlay()
 {
 	Super::BeginPlay();
 	ChangeState(0);
+	OriginalLocation = GetActorLocation();
+	ShakeCount = 0;
 }
 
 // Called every frame
@@ -52,10 +54,10 @@ FPuzzleElement* APuzzlePoint::CheckNearestPoints(APuzzlePoint* ClickedPoint)
 	{
 		if (Element.Point == ClickedPoint)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Correct point "));
 			return &Element;
 		}
 	}
+	StartShake();
 	return nullptr;
 }
 
@@ -68,7 +70,6 @@ bool APuzzlePoint::CheckLoseCondition()
 			return false;
 		}
 	}
-
 	return true;
 }
 
@@ -82,3 +83,28 @@ void APuzzlePoint::SetActiveSprite(UPaperSprite* NewSprite)
 	}
 }
 
+void APuzzlePoint::StartShake()
+{
+	ShakeCount = 0;
+	GetWorld()->GetTimerManager().SetTimer(ShakeTimerHandle, this, &APuzzlePoint::PerformShake, 0.05f, true);
+}
+
+void APuzzlePoint::PerformShake()
+{
+	if (ShakeCount < 10)
+	{
+		FVector ShakeOffset = FVector(FMath::RandRange(-5, 5), FMath::RandRange(-5, 5), 0);
+		SetActorLocation(OriginalLocation + ShakeOffset);
+		ShakeCount++;
+	}
+	else
+	{
+		StopShake();
+	}
+}
+
+void APuzzlePoint::StopShake()
+{
+	SetActorLocation(OriginalLocation);
+	GetWorld()->GetTimerManager().ClearTimer(ShakeTimerHandle);
+}

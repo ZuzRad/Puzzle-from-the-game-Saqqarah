@@ -10,6 +10,7 @@
 #include "PaperSprite.h"
 #include "PaperSpriteComponent.h"
 #include "PuzzleElement.h"
+#include "AwakeAudioPlayer.h"
 #include "GameBoard.generated.h"
 
 UCLASS()
@@ -43,7 +44,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprites")
 	class UPaperSpriteComponent* KeySprite;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	UAwakeAudioPlayer* AudioComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* WinSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* LoseSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* TakeKeySound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* HitPoint;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundBase* Music;
+
 	void TakeKey();
+
 
 private:
 	UPROPERTY()
@@ -54,6 +74,10 @@ private:
 	UPROPERTY(EditAnywhere)
 	int EdgesNumber;
 
+	FTimerHandle ResetTimerHandle;
+
+	void DelayedResetLevel();
+
 	bool CheckWinCondition();
 
 	bool CheckCurrentEdge(APuzzleEdge* Edge);
@@ -61,5 +85,7 @@ private:
 	void ChangeCurrentPoint(APuzzlePoint* ClickedPoint);
 
 	void ResetLevel();
+
+	void PlayFromAudioComponent(USoundBase* Sound);
 
 };

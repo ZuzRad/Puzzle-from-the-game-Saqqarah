@@ -57,4 +57,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
 	TArray<FPuzzleElement> PuzzleElements;
 
+	// Shake variables
+	FTimerHandle ShakeTimerHandle;
+	FVector OriginalLocation;
+	int ShakeCount;
+
+	void StartShake();
+	void PerformShake();
+	void StopShake();
+
 };

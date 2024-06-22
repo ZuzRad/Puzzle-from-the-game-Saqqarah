@@ -15,6 +15,8 @@ AGameBoard::AGameBoard()
 
 	KeySprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("KeySprite"));
 	KeySprite->SetupAttachment(PrimarySprite);
+
+	AudioComponent = CreateDefaultSubobject<UAwakeAudioPlayer>(TEXT("AudioComponent"));
 }
 
 void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
@@ -25,6 +27,8 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 
 		if (Element && CheckCurrentEdge(Element->Edge))
 		{
+			PlayFromAudioComponent(HitPoint);
+
 			CurrentPoint->ChangeState(2);
 			ChangeCurrentPoint(ClickedPoint);
 			UsedEdges++;
@@ -33,14 +37,20 @@ void AGameBoard::CheckPointClicked(APuzzlePoint* ClickedPoint)
 			{
 				FVector WorldOffset(0.f, 50.f, 0.f);
 				AddActorWorldOffset(WorldOffset, false, nullptr, ETeleportType::None);
+
+				PlayFromAudioComponent(WinSound);
 			}
-			else if (ClickedPoint->CheckLoseCondition()) {
-				ResetLevel();
+			else if (ClickedPoint->CheckLoseCondition()) 
+			{
+				PlayFromAudioComponent(LoseSound);
+				
+				GetWorld()->GetTimerManager().SetTimer(ResetTimerHandle, this, &AGameBoard::DelayedResetLevel, 2.0f, false);
 			}
 		}
 	}
 	else 
 	{
+		PlayFromAudioComponent(HitPoint);
 		ChangeCurrentPoint(ClickedPoint);
 	}
 }
@@ -76,6 +86,12 @@ void AGameBoard::ResetLevel()
 	}
 }
 
+void AGameBoard::PlayFromAudioComponent(USoundBase* Sound)
+{
+	AudioComponent->SoundToPlay = Sound;
+	AudioComponent->PlaySound();
+}
+
 
 
 // Called when the game starts or when spawned
@@ -85,6 +101,8 @@ void AGameBoard::BeginPlay()
 	UsedEdges = 0;
 	PrimarySprite->SetSprite(HidingPlace);
 	KeySprite->SetSprite(Key);
+
+	PlayFromAudioComponent(Music);
 }
 
 // Called every frame
@@ -96,7 +114,13 @@ void AGameBoard::Tick(float DeltaTime)
 
 void AGameBoard::TakeKey()
 {
+	PlayFromAudioComponent(TakeKeySound);
 	KeySprite->SetHiddenInGame(true);
+}
+
+void AGameBoard::DelayedResetLevel()
+{
+	ResetLevel();
 }
 
 bool AGameBoard::CheckWinCondition()
